@@ -1,0 +1,358 @@
+<section class="post-detail-view">
+    <!-- Top Back Button -->
+    <div class="top-bar">
+        <button class="back-btn" onclick="window.history.back()">← Search</button>
+        <button class="close-btn">×</button>
+    </div>
+
+    <!-- Post Header Section -->
+    <div class="post-header">
+        {% if post.image %}
+            <img src="{{ post.image.url }}" alt="{{ post.title }}" class="post-cover">
+        {% else %}
+            <img src="https://images.unsplash.com/photo-1517602302552-471fe67acf66" alt="{{ post.title }}" class="post-cover">
+        {% endif %}
+        
+        <div class="post-meta">
+            <span class="year">{{ post.published_date|date:"Y" }}</span>
+            <span class="rating">TV-MA</span>
+            <span class="seasons">{% if post.category %}1 {{ post.category }}{% else %}1 Season{% endif %}</span>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="action-buttons">
+            <button class="play-btn">
+                <span class="play-icon">▶</span> PLAY
+            </button>
+        </div>
+    </div>
+
+    <!-- Post Content Section -->
+    <div class="post-content">
+        <h2 class="post-title">{{ post.title }}</h2>
+        <p class="post-excerpt">{{ post.content|truncatewords:30 }}</p>
+
+        <div class="post-details">
+            <p><strong>Author:</strong> {{ post.author }}</p>
+            <p><strong>Published:</strong> {{ post.published_date|date:"F j, Y" }}</p>
+            {% if post.tags %}
+                <p><strong>Tags:</strong> {{ post.tags.all|join:", " }}</p>
+            {% endif %}
+        </div>
+
+        <!-- Feature Buttons -->
+        <div class="feature-buttons">
+            <button class="feature-btn">
+                <span>+</span> My List
+            </button>
+            <button class="feature-btn">
+                <span>👍</span> Rated
+            </button>
+            <button class="feature-btn">
+                <span>↗</span> Share
+            </button>
+        </div>
+    </div>
+
+    <!-- Tabs Section -->
+    <div class="tabs-section">
+        <div class="tabs">
+            <button class="tab-btn active">POST DETAILS</button>
+            <button class="tab-btn">RELATED POSTS</button>
+        </div>
+
+        <!-- Active Tab Content -->
+        <div class="tab-content active">
+            <h3>Full Content</h3>
+            <div class="full-content">
+                {{ post.content|linebreaks }}
+            </div>
+
+            <!-- Additional Items (like Episodes) -->
+            <div class="related-items">
+                <h4>More from {{ post.author }}</h4>
+                {% for related in related_posts|slice:":3" %}
+                <div class="related-item">
+                    {% if related.image %}
+                        <img src="{{ related.image.url }}" alt="{{ related.title }}" class="item-thumb">
+                    {% else %}
+                        <img src="https://images.unsplash.com/photo-1517602302552-471fe67acf66" alt="{{ related.title }}" class="item-thumb">
+                    {% endif %}
+                    <div class="item-info">
+                        <h5>{{ related.title|truncatechars:20 }}</h5>
+                        <p>{{ related.published_date|date:"Y" }} • {{ related.category }}</p>
+                    </div>
+                    <button class="item-play-btn">▶</button>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <div class="bottom-nav">
+        <button class="nav-btn">
+            <span>🏠</span> Home
+        </button>
+        <button class="nav-btn">
+            <span>🔍</span> Search
+        </button>
+        <button class="nav-btn">
+            <span>📥</span> Saved
+        </button>
+        <button class="nav-btn">
+            <span>☰</span> More
+        </button>
+    </div>
+</section>
+
+<style>
+/* ===== GLOBAL STYLES ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    color: #fff;
+}
+
+.post-detail-view {
+    background-color: #181818;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ===== TOP BAR ===== */
+.top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.2rem;
+    background-color: #000;
+}
+
+.back-btn, .close-btn {
+    background: transparent;
+    border: none;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+/* ===== POST HEADER ===== */
+.post-header {
+    position: relative;
+}
+
+.post-cover {
+    width: 100%;
+    height: auto;
+    max-height: 40vh;
+    object-fit: cover;
+    display: block;
+}
+
+.post-meta {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    padding: 1rem 1.2rem;
+    background-color: #181818;
+    font-size: 0.9rem;
+    color: #ccc;
+}
+
+.action-buttons {
+    padding: 0 1.2rem 1.5rem;
+    background-color: #181818;
+}
+
+.play-btn {
+    background-color: #e50914;
+    border: none;
+    border-radius: 4px;
+    padding: 0.8rem 2rem;
+    font-size: 1.1rem;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.play-icon {
+    font-size: 1.3rem;
+}
+
+/* ===== POST CONTENT ===== */
+.post-content {
+    padding: 1.5rem 1.2rem;
+    background-color: #181818;
+}
+
+.post-title {
+    font-size: 1.8rem;
+    margin-bottom: 0.8rem;
+}
+
+.post-excerpt {
+    font-size: 1rem;
+    color: #ccc;
+    margin-bottom: 1rem;
+    line-height: 1.5;
+}
+
+.post-details {
+    font-size: 0.9rem;
+    color: #ccc;
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+}
+
+.feature-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: space-around;
+}
+
+.feature-btn {
+    background-color: #333;
+    border: none;
+    border-radius: 4px;
+    padding: 0.6rem 1rem;
+    font-size: 0.9rem;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+.feature-btn span {
+    font-size: 1.2rem;
+}
+
+/* ===== TABS SECTION ===== */
+.tabs-section {
+    background-color: #181818;
+    flex: 1;
+    padding-bottom: 5rem; /* Space for bottom nav */
+}
+
+.tabs {
+    display: flex;
+    border-bottom: 1px solid #333;
+}
+
+.tab-btn {
+    background: transparent;
+    border: none;
+    padding: 1rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    position: relative;
+}
+
+.tab-btn.active {
+    color: #e50914;
+}
+
+.tab-btn.active::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background-color: #e50914;
+}
+
+.tab-content {
+    display: none;
+    padding: 1.2rem;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+.full-content {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #ccc;
+    margin-bottom: 2rem;
+}
+
+.related-items h4 {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+}
+
+.related-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.8rem 0;
+    border-bottom: 1px solid #333;
+}
+
+.item-thumb {
+    width: 80px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+.item-info h5 {
+    font-size: 1rem;
+    margin-bottom: 0.3rem;
+}
+
+.item-info p {
+    font-size: 0.8rem;
+    color: #ccc;
+}
+
+.item-play-btn {
+    background-color: rgba(255,255,255,0.2);
+    border: none;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    font-size: 1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: auto;
+}
+
+/* ===== BOTTOM NAV ===== */
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #000;
+    display: flex;
+    justify-content: space-around;
+    padding: 0.8rem 0;
+    border-top: 1px solid #333;
+}
+
+.nav-btn {
+    background: transparent;
+    border: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.2rem;
+    font-size: 0.7rem;
+    cursor: pointer;
+}
+
+.nav-btn span {
+    font-size: 1.2rem;
+}
+</style>

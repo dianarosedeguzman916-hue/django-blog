@@ -1,0 +1,439 @@
+{% extends "base.html" %}
+
+{% block title %}{% if object %}Update Post{% else %}Create Post{% endif %}{% endblock %}
+
+{% block content %}
+<div class="netflix-wrapper">
+
+    <!-- Left Sidebar -->
+    <!-- Left Sidebar -->
+<aside class="left-sidebar">
+    <!-- Home Icon -->
+    <button class="tab-btn active">
+        <span class="tab-icon">
+            <!-- Home SVG -->
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+                <path d="M12 3l10 9h-3v9h-6v-6H11v6H5v-9H2z"/>
+            </svg>
+        </span>
+        <span class="tab-label">Home</span>
+    </button>
+
+    <!-- Posts Icon -->
+    <button class="tab-btn">
+        <span class="tab-icon">
+            <!-- Document SVG -->
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M4 4h16v16H4z" fill="none"/><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zM6 20V4h7v5h5v11H6z"/>
+            </svg>
+        </span>
+        <span class="tab-label">Posts</span>
+    </button>
+
+    <!-- Netflix Logo -->
+    <button class="tab-btn netflix-logo-tab">
+        <span class="logo-icon">N</span>
+    </button>
+
+    <!-- Media Icon -->
+    <button class="tab-btn">
+        <span class="tab-icon">
+            <!-- Play Icon SVG -->
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M8 5v14l11-7z"/>
+            </svg>
+        </span>
+        <span class="tab-label">Media</span>
+    </button>
+
+    <!-- Settings Icon -->
+    <button class="tab-btn">
+        <span class="tab-icon">
+            <!-- Gear SVG -->
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M19.14 12.936l1.43-2.472-2.144-3.716-2.545 1.47a5.007 5.007 0 0 0-1.61-.936L14 3h-4l-.766 3.232a5.007 5.007 0 0 0-1.61.936L5.078 6.748 2.934 10.464l1.43 2.472a5.057 5.057 0 0 0 0 2.128l-1.43 2.472 2.144 3.716 2.545-1.47c.504.406 1.087.734 1.61.936L10 21h4l.766-3.232c.523-.202 1.106-.53 1.61-.936l2.545 1.47 2.144-3.716-1.43-2.472a5.057 5.057 0 0 0 0-2.128zM12 15.5a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7z"/>
+            </svg>
+        </span>
+        <span class="tab-label">Settings</span>
+    </button>
+</aside>
+
+
+    <!-- Top Navigation -->
+    <header class="top-nav">
+        <div class="nav-left">
+            <span class="netflix-logo">N</span>
+            <span class="page-title">Post Manager</span>
+        </div>
+        <div class="nav-right">
+            <button class="nav-btn search-btn" onclick="alert('Search posts here!')">🔍</button>
+            <button class="nav-btn menu-btn">☰</button>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+
+        <!-- Featured Posts -->
+        <section class="content-category">
+            <h2 class="category-title">Post Categories</h2>
+            <div class="content-grid">
+                <div class="content-card">
+                    <img src="https://upload.wikimedia.org/wikipedia/en/8/82/Squid_Game.jpg" alt="Featured Post 1">
+                    <span class="badge">Popular</span>
+                </div>
+                <div class="content-card">
+                    <img src="https://upload.wikimedia.org/wikipedia/en/1/1c/Iron_Reign_poster.jpg" alt="Featured Post 2">
+                    <span class="badge">Recently Added</span>
+                </div>
+                <div class="content-card">
+                    <img src="https://upload.wikimedia.org/wikipedia/en/0/01/The_Inmate.jpg" alt="Featured Post 3">
+                </div>
+                <div class="content-card">
+                    <img src="https://upload.wikimedia.org/wikipedia/en/3/3a/Crooked_House_2017_poster.jpg" alt="Featured Post 4">
+                    <span class="badge">Recent</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Draft Posts -->
+        <section class="content-category">
+            <h2 class="category-title">Draft Posts</h2>
+            <div class="content-grid">
+                <div class="content-card">
+                    <img src="https://upload.wikimedia.org/wikipedia/en/7/76/One_Piece_Film_Red_poster.jpg" alt="Draft 1">
+                </div>
+                <div class="content-card">
+                    <img src="https://upload.wikimedia.org/wikipedia/en/5/5e/Fauda_season_4_poster.jpg" alt="Draft 2">
+                </div>
+                <div class="content-card">
+                    <img src="https://upload.wikimedia.org/wikipedia/en/8/8c/Stranger_Things_season_4.png" alt="Draft 3">
+                </div>
+                <div class="content-card">
+                    <img src="https://upload.wikimedia.org/wikipedia/en/8/8f/Snowfall_season_6_poster.jpg" alt="Draft 4">
+                </div>
+            </div>
+        </section>
+
+        <!-- Form Section -->
+        <section class="content-category form-section">
+            <h2 class="category-title">{% if object %}Update Post{% else %}Create New Post{% endif %}</h2>
+            <div class="form-container">
+                <form method="POST" enctype="multipart/form-data" class="netflix-form">
+                    {% csrf_token %}
+
+                    <!-- Title Field -->
+                    <div class="form-group">
+                        <label for="id_title">Title</label>
+                        <input type="text" name="title" id="id_title" value="{{ form.title.value|default_if_none:'' }}" placeholder="Enter post title">
+                        {% if form.title.errors %}
+                            <div class="error">{{ form.title.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Content Field -->
+                    <div class="form-group">
+                        <label for="id_content">Content</label>
+                        <textarea name="content" id="id_content" placeholder="Write your post here...">{{ form.content.value|default_if_none:'' }}</textarea>
+                        {% if form.content.errors %}
+                            <div class="error">{{ form.content.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Image Field -->
+                    <div class="form-group">
+                        <label for="id_image">Post Image</label>
+                        <input type="file" name="image" id="id_image" accept="image/*">
+                        {% if form.image.value %}
+                            <p>Current Image: <img src="{{ form.image.value.url }}" alt="Current image" class="current-image"></p>
+                        {% endif %}
+                        {% if form.image.errors %}
+                            <div class="error">{{ form.image.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <button type="submit" class="btn-submit">
+                        {% if object %}Update Post{% else %}Create Post{% endif %}
+                    </button>
+                </form>
+            </div>
+        </section>
+
+        <!-- Published Posts -->
+        <section class="content-category">
+            <h2 class="category-title">Published Posts</h2>
+            <div class="content-grid">
+                <div class="content-card">
+                    <img src="https://upload.wikimedia.org/wikipedia/en/4/4b/Kingsman_The_Secret_Service_poster.jpg" alt="Published 1">
+                </div>
+                <div class="content-card">
+                    <img src="https://upload.wikimedia.org/wikipedia/en/8/87/Murder_Mystery_2_poster.jpg" alt="Published 2">
+                </div>
+                <div class="content-card">
+                    <img src="https://upload.wikimedia.org/wikipedia/en/1/18/Focus_%282015_film%29_poster.jpg" alt="Published 3">
+                </div>
+                <div class="content-card">
+                    <img src="https://upload.wikimedia.org/wikipedia/en/5/5a/Shazam_Fury_of_the_Gods_poster.jpg" alt="Published 4">
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+</div>
+
+<style>
+/* ================= GLOBAL ================= */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+}
+
+.netflix-wrapper {
+    background-color: #000;
+    color: #fff;
+    display: flex;
+    min-height: 100vh;
+}
+
+/* ================= LEFT SIDEBAR ================= */
+.left-sidebar {
+    background-color: #000;
+    border-right: 1px solid #222;
+    width: 70px;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 1rem;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 20;
+}
+
+.left-sidebar .tab-btn {
+    background: transparent;
+    border: none;
+    color: #aaa;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.left-sidebar .tab-btn.active,
+.left-sidebar .tab-btn:hover {
+    color: #fff;
+}
+
+.left-sidebar .tab-icon {
+    font-size: 1.5rem;
+    margin-bottom: 0.2rem;
+}
+
+.left-sidebar .tab-label {
+    font-size: 0.6rem;
+    text-align: center;
+}
+
+.left-sidebar .netflix-logo-tab .logo-icon {
+    background-color: #e50914;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    font-weight: 700;
+    margin-top: 0.5rem;
+}
+
+/* ================= TOP NAV ================= */
+.top-nav {
+    background-color: #000;
+    padding: 1rem 1.2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #222;
+    position: fixed;
+    left: 70px;
+    top: 0;
+    right: 0;
+    z-index: 15;
+}
+
+.nav-left .netflix-logo {
+    background-color: #e50914;
+    width: 30px;
+    height: 30px;
+    border-radius: 4px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-right: 0.8rem;
+}
+
+.nav-left .page-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.nav-right .nav-btn {
+    background: transparent;
+    border: none;
+    color: #fff;
+    font-size: 1.2rem;
+    margin-left: 1.2rem;
+    cursor: pointer;
+}
+
+/* ================= MAIN CONTENT ================= */
+.main-content {
+    flex: 1;
+    margin-left: 70px;
+    padding: 80px 1rem 1rem 1rem; /* account for top nav */
+    overflow-y: auto;
+}
+
+/* ================= CONTENT CARDS ================= */
+.content-category {
+    margin-bottom: 2rem;
+}
+
+.category-title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin: 0 0 1rem 0.5rem;
+}
+
+.content-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.5rem;
+}
+
+.content-card {
+    position: relative;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.content-card img {
+    width: 100%;
+    display: block;
+}
+
+.badge {
+    position: absolute;
+    bottom: 0.5rem;
+    left: 0.5rem;
+    background-color: #e50914;
+    font-size: 0.7rem;
+    padding: 0.2rem 0.5rem;
+    border-radius: 3px;
+    font-weight: 600;
+}
+
+/* ================= FORM ================= */
+.form-section .form-container {
+    background-color: #141414;
+    padding: 1.5rem 1.2rem;
+    border-radius: 6px;
+    margin-top: 0.5rem;
+}
+
+.netflix-form .form-group {
+    margin-bottom: 1.5rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin-bottom: 0.6rem;
+    color: #fff;
+}
+
+.form-group input[type="text"],
+.form-group textarea,
+.form-group input[type="file"] {
+    padding: 0.8rem;
+    border: none;
+    border-radius: 4px;
+    background-color: #333;
+    color: #fff;
+    font-size: 0.95rem;
+    width: 100%;
+}
+
+.form-group textarea {
+    min-height: 150px;
+    resize: vertical;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    outline: none;
+    background-color: #444;
+}
+
+.error {
+    margin-top: 0.4rem;
+    font-size: 0.8rem;
+    color: #e50914;
+}
+
+.btn-submit {
+    width: 100%;
+    padding: 0.9rem;
+    border: none;
+    border-radius: 4px;
+    background-color: #e50914;
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.btn-submit:hover {
+    background-color: #c11119;
+}
+
+/* ================= MOBILE ================= */
+@media (max-width: 768px) {
+    .main-content {
+        margin-left: 0;
+        padding: 70px 1rem 1rem 1rem;
+    }
+
+    .left-sidebar {
+        display: none;
+    }
+
+    .top-nav {
+        left: 0;
+    }
+
+    .content-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 480px) {
+    .content-grid {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+{% endblock %}

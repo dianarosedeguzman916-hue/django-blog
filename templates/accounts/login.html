@@ -1,0 +1,298 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block meta_desc %}
+Sign in to your Netflix Blog account to create posts, save favorites, and personalize your feed.
+{% endblock %}
+
+{% block title %}Netflix Blog | Sign In{% endblock %}
+{% block og_title %}Netflix Blog | Sign In{% endblock %}
+
+{% block content %}
+<section class="auth-page">
+    <!-- Red Side Accent (Matches Image Layout) -->
+    <div class="auth-accent"></div>
+
+    <div class="auth-wrapper">
+        <div class="auth-card">
+            <!-- Branding Header (Matches "Welcome to NETFLIX" Style) -->
+            <div class="auth-header">
+                <p class="welcome-text">Welcome</p>
+                <p class="to-text">to</p>
+                <h1 class="brand-title">NETFLIX</h1>
+            </div>
+
+            <!-- Login Form -->
+            <form method="POST" class="auth-form">
+                {% csrf_token %}
+
+                {% if form.errors %}
+                    <div class="alert-error">
+                        Invalid username or password.
+                    </div>
+                {% endif %}
+
+                <div class="form-group">
+                    <input
+                        type="text"
+                        name="username"
+                        id="id_username"
+                        required
+                        value="{% if form.username.value %}{{ form.username.value }}{% endif %}">
+                    <label for="id_username">Username</label>
+                </div>
+
+                <div class="form-group">
+                    <input
+                        type="password"
+                        name="password"
+                        id="id_password"
+                        required>
+                    <label for="id_password">Password</label>
+                    <button type="button" class="toggle-password" onclick="togglePwd()">
+    <!-- Eye Open SVG -->
+    <svg id="eye-open" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M12 5c-7 0-12 7-12 7s5 7 12 7 12-7 12-7-5-7-12-7zm0 12c-2.761 0-5-2.239-5-5s2.239-5 5-5 5 2.239 5 5-2.239 5-5 5zm0-8a3 3 0 1 0 0 6 3 3 0 0 0 0-6z"/>
+    </svg>
+
+    <!-- Eye Closed SVG (hidden by default) -->
+    <svg id="eye-closed" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 24 24" style="display:none;">
+        <path d="M12 5c-7 0-12 7-12 7s5 7 12 7 12-7 12-7-5-7-12-7zm0 12c-2.761 0-5-2.239-5-5 0-1.136.41-2.176 1.086-3.008l6.922 6.922c-.832.676-1.872 1.086-3.008 1.086zm7.914-3.008l-6.922-6.922c.832-.676 1.872-1.086 3.008-1.086 2.761 0 5 2.239 5 5 0 1.136-.41 2.176-1.086 3.008z"/>
+    </svg>
+</button>
+
+                </div>
+
+                <button type="submit" class="btn-primary">
+                    Log in
+                </button>
+
+                <div class="auth-footer">
+                    <p>
+                        Don't have an account?
+                        <a href="{% url 'accounts:register' %}">Sign up.</a>
+                    </p>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+/* ========== PAGE LAYOUT ========== */
+.auth-page {
+    position: relative;
+    min-height: 100vh;
+    background: #000;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start; /* Align to left like image */
+    overflow: hidden;
+}
+
+/* Red Side Accent */
+.auth-accent {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 25%;
+    height: 100%;
+    background: #e50914;
+    z-index: 0;
+}
+
+/* ========== CARD WRAPPER ========== */
+.auth-wrapper {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 2rem;
+    margin-left: 5%; /* Offset to match image positioning */
+}
+
+.auth-card {
+    width: 100%;
+    max-width: 380px;
+    background: #000; /* Solid black like image */
+    padding: 3.5rem 2.5rem;
+    border-radius: 8px;
+    animation: fadeIn 0.6s ease;
+}
+
+/* ========== BRANDING HEADER ========== */
+.auth-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.welcome-text, .to-text {
+    color: #fff;
+    font-size: 1.2rem;
+    font-weight: 300;
+    margin: 0;
+}
+
+.brand-title {
+    color: #e50914;
+    font-size: 3rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    margin: 0.5rem 0 0;
+}
+
+/* ========== FORM STYLES ========== */
+.auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.form-group {
+    position: relative;
+    border-bottom: 1px solid #aaa; /* Underline style like image */
+}
+
+.form-group input {
+    width: 100%;
+    padding: 0.8rem 0;
+    background: transparent;
+    border: none;
+    color: #fff;
+    font-size: 1rem;
+    outline: none;
+}
+
+.form-group label {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #aaa;
+    font-size: 1rem;
+    pointer-events: none;
+    transition: all 0.2s ease;
+}
+
+/* Label Animation on Focus/Fill */
+.form-group input:focus + label,
+.form-group input:not(:placeholder-shown) + label,
+.form-group input:not(:value-empty) + label {
+    top: -10px;
+    font-size: 0.8rem;
+    color: #fff;
+}
+
+/* Password Toggle Button */
+.toggle-password {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    background: transparent;
+    border: none;
+    color: #aaa;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+/* ========== SUBMIT BUTTON ========== */
+.btn-primary {
+    background: #e50914; /* Netflix Red */
+    color: #fff;
+    font-size: 1.1rem;
+    font-weight: 700;
+    padding: 0.9rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+    margin-top: 1rem;
+}
+
+.btn-primary:hover {
+    background: #c11119;
+}
+
+/* ========== ERROR ALERT ========== */
+.alert-error {
+    background: rgba(229,9,20,.25);
+    padding: 0.75rem;
+    border-radius: 4px;
+    color: #fff;
+    text-align: center;
+    font-size: 0.85rem;
+    margin-bottom: 1rem;
+}
+
+/* ========== FORM FOOTER ========== */
+.auth-footer {
+    text-align: center;
+    margin-top: 2rem;
+    color: #aaa;
+    font-size: 0.95rem;
+}
+
+.auth-footer a {
+    color: #fff;
+    text-decoration: none;
+}
+
+.auth-footer a:hover {
+    text-decoration: underline;
+}
+
+/* ========== ANIMATION ========== */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ========== MOBILE RESPONSIVENESS ========== */
+@media (max-width: 768px) {
+    .auth-accent {
+        width: 15%;
+    }
+
+    .auth-wrapper {
+        margin-left: 0;
+        justify-content: center;
+    }
+
+    .brand-title {
+        font-size: 2.5rem;
+    }
+}
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// Password Toggle Function
+function togglePwd() {
+    const pwdInput = document.getElementById('id_password');
+    const eyeOpen = document.getElementById('eye-open');
+    const eyeClosed = document.getElementById('eye-closed');
+
+    if (pwdInput.type === 'password') {
+        pwdInput.type = 'text';
+        eyeOpen.style.display = 'none';
+        eyeClosed.style.display = 'inline';
+    } else {
+        pwdInput.type = 'password';
+        eyeOpen.style.display = 'inline';
+        eyeClosed.style.display = 'none';
+    }
+}
+
+</script>
+{% endblock %}  

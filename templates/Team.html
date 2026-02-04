@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Team</title>
+    <style>
+        /* ===== GLOBAL STYLES ===== */
+        body {
+            margin: 0;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            min-height: 100vh;
+            background: #141414;
+            background: linear-gradient(135deg, #1f1f1f 0%, #0f0f0f 100%);
+            color: #fff;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        /* ===== NETFLIX LOGO ===== */
+        .logo {
+            display: block;
+            margin: 0 auto 20px auto;
+            font-size: 64px;
+            font-weight: 900;
+            color: #e50914;
+            letter-spacing: 4px;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.7);
+            text-align: center;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 48px;
+            font-weight: bold;
+            margin-bottom: 40px;
+            color: #fff;
+            text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.7);
+        }
+
+        /* ===== TEAM CARDS ===== */
+        .team {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .card {
+            background: #1a1a1a;
+            width: 300px;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.6), 0 6px 10px rgba(0, 0, 0, 0.5);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+
+        .card:hover {
+            transform: translateY(-12px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8), 0 10px 20px rgba(0, 0, 0, 0.7);
+        }
+
+        .card img {
+            width: 130px;
+            height: 130px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid #e50914; /* Netflix red border */
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover img {
+            transform: scale(1.1);
+        }
+
+        .card h2 {
+            margin: 15px 0 5px;
+            color: #fff;
+        }
+
+        .card h4 {
+            margin: 5px 0 15px;
+            color: #aaa;
+        }
+
+        .card p {
+            font-size: 14px;
+            color: #ccc;
+        }
+
+        /* ===== ABOUT SECTION ===== */
+        #about {
+            text-align: center;     
+            margin: 50px auto;      
+            max-width: 800px;        
+            color: #fff;        
+        }
+
+        #about h2 {
+            font-size: 36px;
+            margin-bottom: 15px;
+            text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.7);
+        }
+
+        #about p {
+            font-size: 18px;
+            line-height: 1.6;
+            color: #ddd;
+        }
+
+        /* ===== FOOTER ===== */
+        footer {
+            text-align: center;
+            color: #aaa;
+            margin-top: 40px;
+            padding-bottom: 20px;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media(max-width: 960px) {
+            .team {gap: 15px;}
+        }
+
+        @media(max-width: 768px) {
+            .team {flex-direction: column; align-items: center;}
+            .card {width: 80%;}
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- NETFLIX LOGO -->
+    <div class="logo">NETFLIX</div>
+
+    <h1>Meet our Team</h1>
+
+    <!-- TEAM SECTION -->
+    <div class="team">
+        <div class="card">
+            <img src="images/person1.jpg" alt="Eurie De Guzman">
+            <h2>Eurie De Guzman</h2>
+            <h4>C-23-11319</h4>
+        </div>
+
+        <div class="card">
+            <img src="images/person2.jpg" alt="Diana Rose De Guzman">
+            <h2>Diana Rose De Guzman</h2>
+            <h4>C-23-11265</h4>
+        </div>
+
+        <div class="card">
+            <img src="images/person3.jpg" alt="Steffen Gabriel De Vera">
+            <h2>Steffen Gabriel De Vera</h2>
+            <h4>C-23-11519</h4>
+        </div>
+    </div>
+
+    <!-- ABOUT SECTION -->
+    <div id="about">
+        <h2>About Our Group Project</h2>
+        <p>This is our ITPE4 Activity Project. We aim to demonstrate web development skills and teamwork by creating this interactive team website.</p>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        <p>&copy; 2026 ITPE 4 Activity Project</p>
+    </footer>
+</div>
+
+</body>
+</html>

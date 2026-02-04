@@ -1,0 +1,506 @@
+{% extends "base.html" %}
+
+{% block title %}{% if object %}Update Post{% else %}Create Post{% endif %}{% endblock %}
+
+{% block content %}
+<!-- Full Netflix-Style Layout -->
+<div class="netflix-layout">
+    <!-- Left Sidebar Navigation -->
+<aside class="sidebar">
+    <div class="sidebar-nav">
+        <!-- Home -->
+        <button class="nav-btn active" title="Home">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 3l10 9h-3v9h-6v-6h-2v6H5v-9H2z"/>
+            </svg>
+        </button>
+
+        <!-- Search -->
+        <button class="nav-btn" title="Search">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M21.71 20.29l-3.388-3.387A8.938 8.938 0 0019 10a9 9 0 10-9 9 8.938 8.938 0 006.903-3.677l3.387 3.388a1 1 0 001.414-1.414zM4 10a6 6 0 1112 0 6 6 0 01-12 0z"/>
+            </svg>
+        </button>
+
+        <!-- My List -->
+        <button class="nav-btn" title="My List">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M19 13H5v-2h14v2z"/>
+            </svg>
+        </button>
+
+        <!-- Screen -->
+        <button class="nav-btn" title="Screen">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M21 3H3c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h6v2h6v-2h6c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 14H3V5h18v12z"/>
+            </svg>
+        </button>
+
+        <!-- Expand -->
+        <button class="nav-btn" title="Expand">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M4 4h6V2H2v8h2V4zm16 16h-6v2h8v-8h-2v6zM4 20v-6H2v8h8v-2H4zm16-16v6h2V2h-8v2h6z"/>
+            </svg>
+        </button>
+
+        <!-- Add -->
+        <button class="nav-btn" title="Add">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M19 11h-6V5h-2v6H5v2h6v6h2v-6h6z"/>
+            </svg>
+        </button>
+
+        <!-- Shuffle -->
+        <button class="nav-btn" title="Shuffle">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M16 3h5v5h-2V6.414l-6.293 6.293-1.414-1.414L17.586 5H16V3zM4.414 16.414l1.414 1.414L14 9.657V11h2V6h-5v2h1.343l-8.93 8.93z"/>
+            </svg>
+        </button>
+    </div>
+</aside>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+        <!-- Hero Banner (Money Heist Style) -->
+        <section class="hero-banner">
+            <div class="banner-bg">
+                <img src="https://upload.wikimedia.org/wikipedia/en/thumb/9/90/Money_Heist_Part_4.png/1200px-Money_Heist_Part_4.png" 
+                     alt="Hero Background" class="banner-img">
+                <div class="banner-overlay"></div>
+            </div>
+            <div class="banner-details">
+                <div class="media-tag">N SERIES</div>
+                <h1 class="media-title">{% if object %}UPDATE POST{% else %}CREATE POST{% endif %}</h1>
+                <div class="meta-row">
+                    <span class="rating-badge">MDb 8.8/10</span>
+                    <span class="stream-count">100% SECURE</span>
+                </div>
+                <div class="banner-buttons">
+                    <button type="button" class="btn-primary" onclick="document.querySelector('.post-form-card').scrollIntoView()">
+                        {% if object %}<span class="btn-icon">✏️</span> Update{% else %}<span class="btn-icon">▶</span> Create{% endif %}
+                    </button>
+                    <button type="button" class="btn-secondary" onclick="alert('Guidelines: Fill all fields, use high-res images (<=5MB).')">
+                        Guidelines
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Content Rows Section (Matches "New This Week" Style) -->
+        <section class="content-rows">
+            <!-- Form Row -->
+            <div class="content-row">
+                <h2 class="row-title">POST CREATION TOOLS</h2>
+                <div class="row-content">
+                    <!-- Form Card -->
+                    <div class="post-form-card">
+                        <form method="POST" enctype="multipart/form-data" class="netflix-form">
+                            {% csrf_token %}
+
+                            <!-- Title Field -->
+                            <div class="form-field">
+                                {{ form.title.label_tag }}
+                                {{ form.title }}
+                                {% if form.title.errors %}
+                                    <div class="field-error">{{ form.title.errors }}</div>
+                                {% endif %}
+                            </div>
+
+                            <!-- Content Field -->
+                            <div class="form-field">
+                                {{ form.content.label_tag }}
+                                {{ form.content }}
+                                {% if form.content.errors %}
+                                    <div class="field-error">{{ form.content.errors }}</div>
+                                {% endif %}
+                            </div>
+
+                            <!-- Image Field -->
+                            <div class="form-field">
+                                {{ form.image.label_tag }}
+                                {{ form.image }}
+                                {% if form.image.errors %}
+                                    <div class="field-error">{{ form.image.errors }}</div>
+                                {% endif %}
+                            </div>
+
+                            <button type="submit" class="form-submit-btn">
+                                {% if object %}UPDATE POST{% else %}CREATE NEW POST{% endif %}
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- Mock Thumbnails (Matches "New This Week" Grid) -->
+                    <div class="mock-thumbnails">
+                        <div class="thumbnail-card">
+                            <img src="https://m.media-amazon.com/images/M/MV5BMjE3ZjA4NzYtNzA2MS00Nzg2LTk5ZjItNzU0NDcxOWQ0ZDJiXkEyXkFqcGdeQXVyMTkxNjUyNQ@@._V1_.jpg" 
+                                 alt="Mock Content 1">
+                        </div>
+                        <div class="thumbnail-card">
+                            <img src="https://upload.wikimedia.org/wikipedia/en/5/55/Blockbuster_2022.png" 
+                                 alt="Mock Content 2">
+                        </div>
+                        <div class="thumbnail-card">
+                            <img src="https://upload.wikimedia.org/wikipedia/en/1/15/RDX_Movie_Poster.jpg" 
+                                 alt="Mock Content 3">
+                        </div>
+                        <div class="thumbnail-card">
+                            <img src="https://upload.wikimedia.org/wikipedia/en/9/91/The_Perfection_poster.jpg" 
+                                 alt="Mock Content 4">
+                        </div>
+                        <div class="thumbnail-card">
+                            <img src="https://upload.wikimedia.org/wikipedia/en/2/2a/Extraction_2020_Poster.jpg" 
+                                 alt="Mock Content 5">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Trending Row (Mock) -->
+            <div class="content-row">
+                <h2 class="row-title">TRENDING FORMS</h2>
+                <div class="row-content">
+                    <div class="thumbnail-card">
+                        <img src="https://upload.wikimedia.org/wikipedia/en/3/3d/Jaane_Jaan_film_poster.jpg" 
+                             alt="Trending 1">
+                    </div>
+                    <div class="thumbnail-card">
+                        <img src="https://upload.wikimedia.org/wikipedia/en/5/56/The_Irishman_poster.jpg" 
+                             alt="Trending 2">
+                    </div>
+                    <div class="thumbnail-card">
+                        <img src="https://upload.wikimedia.org/wikipedia/en/8/8c/Stranger_Things_season_4.png" 
+                             alt="Trending 3">
+                    </div>
+                    <div class="thumbnail-card">
+                        <img src="https://upload.wikimedia.org/wikipedia/en/7/7b/Queen%27s_Gambit.png" 
+                             alt="Trending 4">
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+</div>
+
+<style>
+/* Global Resets & Base Style */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+}
+
+body {
+    background-color: #000;
+    color: #fff;
+}
+
+/* Full Layout Container */
+.netflix-layout {
+    display: flex;
+    height: 100vh;
+    overflow-x: hidden;
+}
+
+/* Sidebar Navigation (Matches Left Icons in Image) */
+.sidebar {
+    width: 56px;
+    background-color: #000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem 0;
+}
+
+.sidebar-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.nav-btn {
+    background: transparent;
+    border: none;
+    color: #e5e5e5;
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 4px;
+    transition: color 0.2s ease;
+}
+
+.nav-btn.active, .nav-btn:hover {
+    color: #fff;
+    background-color: rgba(229, 229, 229, 0.1);
+}
+
+/* Main Content Area */
+.main-content {
+    flex: 1;
+    overflow-y: auto;
+}
+
+/* Hero Banner (Exact Match to Money Heist Header) */
+.hero-banner {
+    position: relative;
+    height: 80vh;
+    overflow: hidden;
+}
+
+.banner-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.banner-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.8;
+}
+
+.banner-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, rgba(0,0,0,0) 50%, rgba(0,0,0,1) 100%);
+}
+
+.banner-details {
+    position: absolute;
+    bottom: 4rem;
+    left: 3rem;
+    max-width: 600px;
+    z-index: 1;
+}
+
+.media-tag {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #e5e5e5;
+    margin-bottom: 0.5rem;
+}
+
+.media-title {
+    font-size: 3.5rem;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 1rem;
+}
+
+.meta-row {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.rating-badge {
+    background-color: #00a8e1;
+    color: #fff;
+    padding: 0.2rem 0.6rem;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.stream-count {
+    color: #e5e5e5;
+    font-size: 0.95rem;
+}
+
+.banner-buttons {
+    display: flex;
+    gap: 1.2rem;
+}
+
+.btn-primary, .btn-secondary {
+    padding: 0.8rem 1.8rem;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.btn-primary {
+    background-color: #e50914;
+    color: #fff;
+}
+
+.btn-primary:hover {
+    background-color: #c11119;
+}
+
+.btn-secondary {
+    background-color: rgba(109, 109, 110, 0.7);
+    color: #fff;
+}
+
+.btn-secondary:hover {
+    background-color: rgba(109, 109, 110, 0.5);
+}
+
+.btn-icon {
+    margin-right: 0.5rem;
+}
+
+/* Content Rows (Matches "New This Week" & "Trending Now") */
+.content-rows {
+    padding: 0 1.5rem 3rem;
+}
+
+.content-row {
+    margin-bottom: 2.5rem;
+}
+
+.row-title {
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin: 0 0 1rem 1rem;
+}
+
+.row-content {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+    overflow-x: auto;
+    padding-bottom: 1rem;
+}
+
+.row-content::-webkit-scrollbar {
+    display: none;
+}
+
+/* Mock Thumbnails (Same Style as Image Posters) */
+.mock-thumbnails {
+    display: flex;
+    gap: 0.8rem;
+    flex-shrink: 0;
+}
+
+.thumbnail-card {
+    width: 220px;
+    border-radius: 4px;
+    overflow: hidden;
+    transition: transform 0.2s ease;
+    flex-shrink: 0;
+}
+
+.thumbnail-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.thumbnail-card:hover {
+    transform: scale(1.05);
+}
+
+/* Form Card (Styled to Match Netflix Aesthetic) */
+.post-form-card {
+    background-color: #141414;
+    padding: 2rem;
+    border-radius: 4px;
+    width: 380px;
+    flex-shrink: 0;
+    box-shadow: 0 0 15px rgba(0,0,0,0.5);
+}
+
+.netflix-form .form-field {
+    margin-bottom: 1.5rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-field label {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 0.6rem;
+    color: #fff;
+}
+
+.form-field input[type="text"],
+.form-field textarea,
+.form-field input[type="file"] {
+    padding: 0.9rem;
+    border: none;
+    border-radius: 4px;
+    background-color: #333;
+    color: #fff;
+    font-size: 1rem;
+}
+
+.form-field textarea {
+    min-height: 180px;
+    resize: vertical;
+}
+
+.form-field input:focus,
+.form-field textarea:focus {
+    outline: none;
+    background-color: #444;
+}
+
+.field-error {
+    margin-top: 0.5rem;
+    font-size: 0.85rem;
+    color: #e50914;
+}
+
+.form-submit-btn {
+    width: 100%;
+    padding: 0.9rem;
+    border: none;
+    border-radius: 4px;
+    background-color: #e50914;
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.form-submit-btn:hover {
+    background-color: #c11119;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    .sidebar {
+        display: none;
+    }
+
+    .banner-details {
+        left: 1.5rem;
+        bottom: 2rem;
+    }
+
+    .media-title {
+        font-size: 2rem;
+    }
+
+    .row-content {
+        flex-direction: column;
+        overflow-x: visible;
+    }
+
+    .post-form-card {
+        width: 100%;
+        margin-bottom: 1rem;
+    }
+
+    .mock-thumbnails {
+        width: 100%;
+        overflow-x: auto;
+    }
+}
+</style>
+{% endblock %}
